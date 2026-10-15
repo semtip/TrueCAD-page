@@ -1,0 +1,62 @@
+/* ==========================================================
+   TrueCAD page theme. Rebrand here, nowhere else.
+   index.html only uses these variables, never raw colors.
+
+   Dark is the default (matches semtip.nl/truecad).
+   To try the light preset, set <html data-theme="light">.
+   ========================================================== */
+
+:root {
+  /* surfaces */
+  --bg:        #000;
+  --panel:     #0c0d0e;
+  --line:      rgba(255,255,255,.09);
+  --line-2:    rgba(255,255,255,.16);
+  --grid:      rgba(255,255,255,.06);
+
+  /* text */
+  --text:      #faf9f7;
+  --body:      #d3cfc5;
+  --muted:     #9a978f;
+  --faint:     #6f6c66;
+
+  /* accent */
+  --accent:      #4fd6f2;
+  --accent-ink:  #00161c;              /* text on accent buttons */
+  --accent-soft: rgba(79,214,242,.10); /* tinted fills */
+  --accent-line: rgba(79,214,242,.40); /* tinted borders */
+  --accent-glow: rgba(79,214,242,.45); /* button hover glow */
+
+  /* type */
+  --font:  'Inter', system-ui, sans-serif;
+  --mono:  'IBM Plex Mono', ui-monospace, monospace;
+  --serif: 'Instrument Serif', Georgia, serif;
+
+  /* shape */
+  --radius:    14px;
+  --radius-sm: 10px;
+
+  color-scheme: dark;
+}
+
+/* Light preset, RenderFlow-like warm paper. */
+:root[data-theme="light"] {
+  --bg:        #faf9f7;
+  --panel:     #fff;
+  --line:      rgba(0,0,0,.09);
+  --line-2:    rgba(0,0,0,.16);
+  --grid:      rgba(0,0,0,.05);
+
+  --text:      #1b1a18;
+  --body:      #57544e;
+  --muted:     #8a877f;
+  --faint:     #a8a59d;
+
+  --accent:      #0a8fb0;
+  --accent-ink:  #fff;
+  --accent-soft: rgba(10,143,176,.08);
+  --accent-line: rgba(10,143,176,.35);
+  --accent-glow: rgba(10,143,176,.35);
+
+  color-scheme: light;
+}

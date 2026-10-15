@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listing Preview</title>
+  <!-- Dev only: a rough mock of a marketplace listing, to judge the embed in context. -->
+  <style>
+    body { margin: 0; background: #f4f4f2; font: 14px/1.5 system-ui, sans-serif; color: #333; }
+    .bar { background: #fff; border-bottom: 1px solid #ddd; padding: 14px 24px; font-weight: 600; }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; display: flex; gap: 28px; align-items: flex-start; }
+    .main { flex: 1; min-width: 0; }
+    .gallery { aspect-ratio: 16/9; background: #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888; margin-bottom: 20px; }
+    iframe { width: 100%; height: 6200px; border: 0; border-radius: 8px; display: block; }
+    .side { width: 300px; flex: none; position: sticky; top: 24px; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; }
+    .side .price { font-size: 28px; font-weight: 700; margin: 4px 0 14px; }
+    .side .buy { background: #2b6; color: #fff; text-align: center; padding: 12px; border-radius: 6px; font-weight: 600; }
+    @media (max-width: 900px) { .wrap { flex-direction: column-reverse; } .side { width: 100%; position: static; } }
+  </style>
+</head>
+<body>
+  <div class="bar">Marketplace</div>
+  <div class="wrap">
+    <div class="main">
+      <div class="gallery">Listing gallery</div>
+      <iframe src="index.html" title="TrueCAD product page"></iframe>
+    </div>
+    <aside class="side">
+      <div>TrueCAD</div>
+      <div class="price">$25</div>
+      <div class="buy">Add to cart</div>
+    </aside>
+  </div>
+</body>
+</html>
