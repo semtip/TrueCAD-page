@@ -15,6 +15,8 @@ Product page for the TrueCAD Superhive listing. Plain HTML, no build step. Serve
 python3 -m http.server
 ```
 
+Add `?theme=light` to the page URL for the light version.
+
 Open `localhost:8000/preview.html` to see the page inside a mock listing, or `index.html` on its own.
 
 ## Rules

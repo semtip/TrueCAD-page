@@ -21,6 +21,11 @@
     };
   </script>
 
+  <script>
+    /* Theme: add ?theme=light to the page URL for the light version. */
+    if (new URLSearchParams(location.search).get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">

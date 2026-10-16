@@ -52,11 +52,11 @@
   --muted:     #8a877f;
   --faint:     #a8a59d;
 
-  --accent:      #0a8fb0;
+  --accent:      #07758f;
   --accent-ink:  #fff;
-  --accent-soft: rgba(10,143,176,.08);
-  --accent-line: rgba(10,143,176,.35);
-  --accent-glow: rgba(10,143,176,.35);
+  --accent-soft: rgba(7,117,143,.08);
+  --accent-line: rgba(7,117,143,.35);
+  --accent-glow: rgba(7,117,143,.35);
 
   color-scheme: light;
 }
