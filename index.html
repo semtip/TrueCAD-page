@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TrueCAD for Blender</title>
-  <meta name="description" content="Parametric CAD that feels like Blender. Sketch, extrude, fillet and export STEP without leaving Blender.">
+  <meta name="description" content="Parametric CAD that feels like Blender. Sketch, build and export STEP without leaving Blender.">
 
   <script>
     /* ===== Settings: the only lines you need to touch =====
@@ -38,7 +38,7 @@
     .page { max-width: 760px; margin: 0 auto; padding: 0 24px 72px; }
     section { padding: 96px 0 0; }
 
-    .kick { font-size: 1.0625rem; font-weight: 600; color: var(--accent-text); letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
+    .kick { font-size: 1.0625rem; font-weight: 600; color: var(--accent); letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
     .kick.nodot { color: var(--muted); font-size: .9375rem; font-weight: 500; }
     h1, h2, h3 { font-family: var(--display); text-wrap: balance; }
     h1 { font-size: clamp(2.375rem, 7vw, 3.5rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; margin: 0 0 20px; }
@@ -64,6 +64,8 @@
 
     /* brand */
     .brand { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 20px; font-family: var(--display); font-size: 1.5rem; font-weight: 800; letter-spacing: -.035em; color: var(--text); }
+    .h2-brand { display: inline-flex; align-items: center; gap: .14em; margin-left: .12em; }
+    .h2-brand svg { width: .8em; height: .8em; flex: none; color: var(--accent); }
     .brand svg { width: 21px; height: 21px; flex: none; color: var(--accent); }
 
     /* hero */
@@ -84,6 +86,23 @@
       background-size: 48px 48px; background-position: center top;
       -webkit-mask-image: radial-gradient(ellipse 60% 90% at 50% 0%, #000 45%, transparent 95%);
               mask-image: radial-gradient(ellipse 60% 90% at 50% 0%, #000 45%, transparent 95%); }
+    .sk-bg { position: absolute; top: 0; left: 50%; width: 0; height: 0; margin-left: -24px; z-index: -1; pointer-events: none; opacity: .5; }
+    .sk-bg svg { position: absolute; top: 0; left: 0; width: 1px; height: 1px; max-width: none; overflow: visible; }
+    .sk-c { transform: translateX(-48px); }
+    .sk-r { transform: translate(144px, 48px); }
+    .sk-bg .ln { fill: none; stroke: rgba(var(--accent-rgb), .8); stroke-width: 1.5; }
+    .sk-bg .fl { fill: rgba(var(--accent-rgb), .07); stroke: none; }
+    .sk-bg .dm { fill: none; stroke: rgba(var(--accent-rgb), .45); stroke-width: 1; }
+    .sk-bg .ld { fill: none; stroke: rgba(var(--accent-rgb), .55); stroke-width: 1; stroke-dasharray: 3 4; }
+    .sk-bg .pt { fill: rgb(var(--accent-rgb)); }
+    .sk-bg .tg { fill: rgba(255,255,255,.92); }
+    .sk-bg text { font: 500 11px var(--mono); fill: rgb(var(--accent-rgb)); text-anchor: middle; dominant-baseline: central; }
+    @media (max-width: 1100px) {
+      .sk-bg { opacity: .4; }
+      /* shifts snap to the 48px grid pitch so the shapes never sit between lines */
+      .sk-c { transform: translateX(144px); transform: translateX(calc(round(down, calc(432px - clamp(110px, 30vw, 432px)), 48px) - 48px)); }
+      .sk-r { transform: translate(0px, 48px); transform: translate(calc(144px - round(down, calc(408px - clamp(110px, 30vw, 408px)), 48px)), 48px); }
+    }
     .hero-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 22px; }
     .hero-top .kick { margin: 0; }
     .pill { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 600; color: var(--accent-text); background: #fff; border: 1px solid var(--accent-line); border-radius: var(--radius-sm); padding: 6px 14px 6px 12px; }
@@ -98,14 +117,31 @@
     .hero-media .media { aspect-ratio: 16 / 9; }
     .hero-media { margin: 40px 0 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
 
+    .keys-head { grid-column: 1 / -1; font-size: .875rem; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; color: var(--text); margin: 0; padding: 11px 16px; border-bottom: 1px solid var(--line); }
     .keys { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); margin: 20px 0 0; overflow: hidden; background: var(--panel); }
-    .key { padding: 18px 20px; border-left: 1px solid var(--line); }
-    .key:first-child { border-left: 0; }
-    .key kbd { font-size: .875rem; }
-    .key span { display: block; margin-top: 10px; font-size: .875rem; line-height: 1.45; color: var(--body); }
+    .key { padding: 12px 16px 14px; border-left: 1px solid var(--line); }
+    .key:first-of-type { border-left: 0; }
+    .key kbd { font-size: .8125rem; padding: 1px 6px; }
+    .key span { display: block; margin-top: 7px; font-size: .8125rem; line-height: 1.4; color: var(--body); }
 
     /* solid vs mesh */
-    .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 28px 0 0; }
+    /* before / after slider */
+    .ba { margin: 28px 0 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+    .ba-stage { position: relative; height: 320px; overflow: hidden; background: var(--panel); touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .ba-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--panel); }
+    .ba-layer svg { width: 100%; max-width: 260px; height: auto; }
+    .ba-solid { clip-path: inset(0 0 0 var(--pos)); }
+    .ba-tag { position: absolute; top: 14px; font-family: var(--mono); font-size: .75rem; letter-spacing: .02em; padding: 4px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--line-2); color: var(--muted); pointer-events: none; }
+    .ba-tag-l { left: 14px; }
+    .ba-tag-r { right: 14px; color: var(--accent-text); border-color: var(--accent-line); }
+    .ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--accent); pointer-events: none; }
+    .ba-grip { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px -4px rgba(var(--accent-rgb), .7); transition: transform .12s ease; }
+    .ba-grip svg { width: 20px; height: 20px; }
+    .ba-stage:hover .ba-grip { transform: scale(1.06); }
+    .ba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; }
+    .ba-range:focus-visible ~ .ba-handle .ba-grip { outline: 3px solid var(--text); outline-offset: 3px; }
+    .ba-caps { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+    .ba-caps .vs { padding: 20px 24px 22px; }
     .vs { background: var(--panel); padding: 24px 24px 22px; }
     .vs svg { width: 100%; max-width: 168px; height: auto; margin: 0 auto 18px; }
     .vs .meta { margin-bottom: 6px; }
@@ -127,6 +163,8 @@
     .card .tag { font-family: var(--mono); font-size: .75rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 14px; display: block; }
     .card h3 { color: var(--accent); }
     .card p { font-size: .9375rem; margin: 0; }
+    .card:has(.meta) { display: flex; flex-direction: column; }
+    .card .meta { margin-top: auto; padding-top: 16px; }
     .callout { margin: 16px 0 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 24px; display: flex; gap: 14px; align-items: baseline; background: var(--panel); }
     .callout p { margin: 0; font-size: .9375rem; }
     .callout strong { color: var(--text); font-weight: 600; }
@@ -178,6 +216,14 @@
     .more { margin: 24px 0 0; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.01em; }
     .more a { color: var(--accent-text); text-decoration: none; }
     .more a:hover { text-decoration: underline; text-underline-offset: .15em; }
+    .buy { position: relative; }
+    .buy:before { content: ''; position: absolute; top: 0; bottom: -40px; left: -50vw; right: -50vw; z-index: -1; pointer-events: none;
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px; background-position: center top;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 140px), radial-gradient(ellipse 60% 100% at 50% 0%, #000 35%, transparent 90%);
+      -webkit-mask-composite: source-in;
+              mask-image: linear-gradient(to bottom, transparent, #000 140px), radial-gradient(ellipse 60% 100% at 50% 0%, #000 35%, transparent 90%);
+              mask-composite: intersect; }
     .final { text-align: center; padding-top: 120px; }
     .final .lede { margin: 0 auto; }
     .final-head { width: fit-content; max-width: 100%; margin: 0 auto 40px; text-align: center; }
@@ -211,10 +257,12 @@
       .hero-media { padding: 8px; }
       .lede { font-size: 1.0625rem; }
       .keys { grid-template-columns: 1fr 1fr; }
-      .key:nth-child(3) { border-left: 0; }
-      .key:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .key:nth-of-type(3) { border-left: 0; }
+      .key:nth-of-type(n+3) { border-top: 1px solid var(--line); }
       .feats { grid-template-columns: 1fr; }
       .vs { padding: 18px 14px 16px; }
+      .ba-stage { height: 240px; }
+      .ba-caps .vs { padding: 16px 14px; }
       .vs p { font-size: .84375rem; }
       .callout { flex-direction: column; gap: 6px; }
       .cta { flex-direction: column; align-items: stretch; }
@@ -227,6 +275,32 @@
   <div class="sale" data-sale><span data-sale-text></span><em data-sale-code></em></div>
 
   <main class="page">
+    <div class="sk-bg" aria-hidden="true">
+      <svg width="1" height="1">
+        <g class="sk-c">
+        <circle class="fl" cx="-432" cy="240" r="144"/>
+        <circle class="ln" cx="-432" cy="240" r="144"/>
+        <line class="ld" x1="-432" y1="240" x2="-432" y2="96"/>
+        <rect class="pt" x="-435" y="237" width="6" height="6"/>
+        <rect class="pt" x="-435" y="93" width="6" height="6"/>
+        <rect class="tg" x="-468" y="159" width="72" height="18"/>
+        <text x="-432" y="168.5">&#216; 60.00</text>
+        </g>
+        <g class="sk-r">
+        <rect class="fl" x="336" y="144" width="144" height="192"/>
+        <rect class="ln" x="336" y="144" width="144" height="192"/>
+        <path class="dm" d="M336 140V122M480 140V122M336 126H480M332 144H314M332 336H314M318 144V336"/>
+        <rect class="pt" x="333" y="141" width="6" height="6"/>
+        <rect class="pt" x="477" y="141" width="6" height="6"/>
+        <rect class="pt" x="477" y="333" width="6" height="6"/>
+        <rect class="pt" x="333" y="333" width="6" height="6"/>
+        <rect class="tg" x="378" y="117" width="60" height="18"/>
+        <text x="408" y="126.5">30.00</text>
+        <rect class="tg" x="288" y="231" width="60" height="18"/>
+        <text x="318" y="240.5">40.00</text>
+        </g>
+      </svg>
+    </div>
 
     <!-- 1. HOOK -->
     <header class="hero">
@@ -243,7 +317,8 @@
       </figure>
 
       <div class="keys" aria-label="Shortcuts">
-        <div class="key"><kbd>Tab</kbd><span>Enter and leave CAD editing, like Edit Mode</span></div>
+        <h3 class="keys-head">You already know how to use it</h3>
+        <div class="key"><kbd>Tab</kbd><span>Enter/Exit CAD Mode</span></div>
         <div class="key"><kbd>E</kbd><span>Extrude or cut a face or sketch</span></div>
         <div class="key"><kbd>Ctrl</kbd> <kbd>B</kbd><span>Fillet or chamfer edges</span></div>
         <div class="key"><kbd>D</kbd><span>Dimension to an exact value</span></div>
@@ -254,7 +329,7 @@
     <section>
       <p class="kick">How it works</p>
       <h2><kbd>Shift</kbd> <kbd>A</kbd> &rarr; CAD Part</h2>
-      <p>A CAD Part is a new type of object, right next to Mesh and Curve.</p>
+      <p>A CAD Part is a new type of object, just like Mesh and Curve. Start from a Sketch, Primitive or CAD Plane.</p>
       <!-- [TODO: confirm the exact Add menu label in the addon UI. Page and UI must use the identical word.] -->
       <div class="clips">
         <div class="clip">
@@ -266,7 +341,7 @@
     <!-- 4. EDIT THE PAST -->
     <section>
       <p class="kick">Feature History</p>
-      <h2>Change anything. Everything rebuilds.</h2>
+      <h2>Change anything. Everything rebuilds</h2>
       <p>Every operation lands in a Feature History that reads like the modifier stack. Change the first sketch and every step after it updates. Scrub back, edit, and keep going.</p>
       <div class="clips">
         <div class="clip">
@@ -279,29 +354,41 @@
     <!-- 5. A REAL SOLID, NOT A MESH -->
     <section>
       <p class="kick">Under the hood</p>
-      <h2>A real solid, not a mesh that looks round.</h2>
-      <p>Most CAD-style tools in Blender end with a regular mesh. TrueCAD builds a true solid with exact surfaces and edges, the same geometry dedicated CAD software uses.</p>
+      <h2>Real CAD geometry, inside Blender</h2>
+      <p>Most CAD-style tools in Blender end with a regular mesh. TrueCAD brings the power and precision of CAD into Blender. It builds a true solid with exact surfaces and edges, the same geometry dedicated CAD software uses.</p>
 
-      <div class="versus">
-        <div class="vs">
-          <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+      <div class="ba">
+        <div class="ba-stage" style="--pos: 50%">
+          <div class="ba-layer ba-mesh">
+            <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
             <polygon points="104,60 98.1,82 82,98.1 60,104 38,98.1 21.9,82 16,60 21.9,38 38,21.9 60,16 82,21.9 98.1,38" stroke="var(--muted)" stroke-width="1.5"/>
             <g fill="var(--muted)">
               <circle cx="104" cy="60" r="2"/><circle cx="98.1" cy="82" r="2"/><circle cx="82" cy="98.1" r="2"/><circle cx="60" cy="104" r="2"/><circle cx="38" cy="98.1" r="2"/><circle cx="21.9" cy="82" r="2"/><circle cx="16" cy="60" r="2"/><circle cx="21.9" cy="38" r="2"/><circle cx="38" cy="21.9" r="2"/><circle cx="60" cy="16" r="2"/><circle cx="82" cy="21.9" r="2"/><circle cx="98.1" cy="38" r="2"/>
             </g>
           </svg>
-          <p class="meta">Mesh</p>
-          <p>A circle is flat faces between points. Fillets pinch, booleans leave artifacts, and the part can't go to CAD software.</p>
-        </div>
-        <div class="vs good">
-          <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          </div>
+          <div class="ba-layer ba-solid">
+            <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
             <circle cx="60" cy="60" r="44" stroke="var(--accent)" stroke-width="1.5"/>
             <path d="M54 60h12M60 54v12" stroke="var(--accent)" stroke-width="1"/>
             <path d="M16 60H8M104 60h8" stroke="var(--accent)" stroke-width="1" opacity=".5"/>
             <text x="60" y="44" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--accent)">&#216; 20.00</text>
           </svg>
-          <p class="meta">TrueCAD solid</p>
-          <p>A circle is a circle. Round edges stay round at any zoom, and the part exports as STEP for printing, manufacturing or other CAD tools.</p>
+          </div>
+          <span class="ba-tag ba-tag-l">Mesh</span>
+          <span class="ba-tag ba-tag-r">TrueCAD solid</span>
+          <input class="ba-range" type="range" min="0" max="100" value="50" step="0.5" aria-label="Compare mesh and TrueCAD solid">
+          <div class="ba-handle" aria-hidden="true"><span class="ba-grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></div>
+        </div>
+        <div class="ba-caps">
+          <div class="vs">
+            <p class="meta">Mesh</p>
+            <p>A circle is flat faces between points. Fillets pinch, booleans leave artifacts, and the part can't go to CAD software.</p>
+          </div>
+          <div class="vs good">
+            <p class="meta">TrueCAD solid</p>
+            <p>A circle is a circle. Round edges stay round at any zoom, and the part exports as STEP for printing, manufacturing or other CAD tools.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -309,7 +396,7 @@
     <!-- 6. HOW IT WORKS -->
     <section>
       <p class="kick">The workflow</p>
-      <h2>Sketch. Build. Export.</h2>
+      <h2>Sketch. Build. Export</h2>
       <div class="clips">
         <div class="clip">
           <!-- <div class="media"><video src="assets/clip-sketch.mp4" autoplay muted loop playsinline></video></div> -->
@@ -322,7 +409,6 @@
           <div class="media ph">CLIP: TAB IN, E, CTRL+B, I, TAB OUT</div>
           <h3>2. Build with the keys you know</h3>
           <p><kbd>E</kbd> extrudes, <kbd>Ctrl</kbd> + <kbd>B</kbd> fillets, <kbd>I</kbd> shells. Drag loosely or type a number. Tab out when you're done, like Edit Mode.</p>
-          <p class="meta">[TODO: confirm I is the shell shortcut in the release build]</p>
         </div>
         <div class="clip">
           <!-- <div class="media"><video src="assets/clip-export.mp4" autoplay muted loop playsinline></video></div> -->
@@ -336,38 +422,38 @@
     <!-- 7. WHO IT'S FOR -->
     <section>
       <p class="kick">Who it's for</p>
-      <h2>For people that love CAD.</h2>
+      <h2>For people that love CAD</h2>
       <div class="cards">
         <div class="card">
           <span class="tag">3D printing</span>
-          <h3>Fits the first time</h3>
-          <p>Brackets, enclosures and adapters with exact dimensions and true fillets, straight from a sketch.</p>
+          <h3>Precise Parts</h3>
+          <p>Type in exact dimensions and print parts that come out the size you drew them. Easy to adjust for v2.</p>
         </div>
         <div class="card">
           <span class="tag">Product design</span>
           <h3>Model and render in one file</h3>
-          <p>Build it precisely, then light, render and animate it without exporting anything. Sketch dimensions can show up in your renders too.</p>
+          <p>Build it precisely, then light, render and animate it without exporting anything.</p>
         </div>
         <div class="card">
-          <span class="tag">Hard-surface</span>
-          <h3>Clean shapes, no shading fights</h3>
-          <p>Real fillets and booleans with no pinching or artifacts. Convert to a mesh whenever you want to keep going freely.</p>
+          <span class="tag">CAD users</span>
+          <h3>Your way into Blender</h3>
+          <p>Think in sketches, dimensions and features. Model the way you do in CAD, and get Blender's rendering and animation.</p>
         </div>
       </div>
       <div class="callout">
         <span class="kick">STEP</span>
-        <p><strong>Pulling parts from GrabCAD or McMaster-Carr?</strong> Import STEP files as real solids and keep editing them. Export STEP for manufacturing or other CAD software.</p>
+        <p>Import STEP files as real solids and keep editing them. Export STEP for manufacturing or other CAD software.</p>
       </div>
     </section>
 
     <!-- 8. PROOF -->
     <section>
-      <p class="kick">From the testers</p>
-      <h2>Made with TrueCAD.</h2>
+      <p class="kick">From the users</p>
+      <h2>Made with <span class="h2-brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="miter" aria-hidden="true"><path d="M21 3H9L3 9V21H21Z"/></svg>TrueCAD</span></h2>
       <div class="cards">
-        <div class="card"><p>"[TODO: tester quote 1, ideally about something that fit or printed first time]"</p><p class="meta">[TODO: name, what they made]</p></div>
-        <div class="card"><p>"[TODO: tester quote 2, ideally about it feeling like Blender]"</p><p class="meta">[TODO: name, what they made]</p></div>
-        <div class="card"><p>"[TODO: tester quote 3, ideally from a hard-surface or product design user]"</p><p class="meta">[TODO: name, what they made]</p></div>
+        <div class="card"><p>"My first real part took 15 minutes and it was very easy. The shortcuts did exactly what I expected from Blender. It felt like I already knew how to use it."</p><p class="meta">Lisa, modeled a desk organizer</p></div>
+        <div class="card"><p>"Typing in exact dimensions was easy, so I modeled a snap-fit enclosure precisely, hit print, and the lid clicked on the first try."</p><p class="meta">Daan, printed a case</p></div>
+        <div class="card"><p>"I would normally model this in Fusion and render it in Blender. Here I did both in one file, which was great."</p><p class="meta">Mark, product designer, prototyped a device</p></div>
       </div>
       <div class="clips">
         <div class="clip">
@@ -379,27 +465,27 @@
     <!-- 9. WHAT'S IN TODAY -->
     <section>
       <p class="kick">Features</p>
-      <h2>Everything for sketch to solid to STEP.</h2>
+      <h2>Everything from sketch &rarr; solid &rarr; STEP</h2>
       <div class="feats">
-        <div class="feat"><b>Sketches</b><span>Line, rectangle, circle, slot, trim</span></div>
+        <div class="feat"><b>Feature History</b><span>Scrub back, edit any step, live rebuild</span></div>
+        <div class="feat"><b>STEP import and export</b><span>Import as real solids, export for any CAD</span></div>
         <div class="feat"><b>Constraints and dimensions</b><span>Coincident, parallel, tangent, length, angle and more</span></div>
+        <div class="feat"><b>Sketches</b><span>Line, rectangle, circle, slot, trim</span></div>
+        <div class="feat"><b>Fillet and chamfer</b><span>True rounded and beveled edges</span></div>
+        <div class="feat"><b>Booleans</b><span>Between CAD parts, or with regular meshes</span></div>
         <div class="feat"><b>Extrude and cut</b><span>Join, cut, intersect, symmetric, through all</span></div>
         <div class="feat"><b>Revolve and loft</b><span>Spin a profile or blend between sections</span></div>
-        <div class="feat"><b>Fillet and chamfer</b><span>True rounded and beveled edges</span></div>
-        <div class="feat"><b>Shell and mirror</b><span>Hollow a part, mirror a body or features</span></div>
-        <div class="feat"><b>Booleans</b><span>Between CAD parts, or with regular meshes</span></div>
-        <div class="feat"><b>Feature History</b><span>Scrub back, edit any step, live rebuild</span></div>
-        <div class="feat"><b>STEP import and export</b><span>AP242, AP214 and AP203</span></div>
+        <div class="feat"><b>Shell</b><span>Hollow out a part with a set wall thickness</span></div>
         <div class="feat"><b>Section view</b><span>Slice the part to look inside</span></div>
         <div class="feat"><b>Dimensions in renders</b><span>Sketch outlines and numbers in final renders</span></div>
-        <div class="feat"><b>Crash safe</b><span>A failed operation shows a message, Blender keeps running</span></div>
+        <div class="feat"><b>Mirror</b><span>Mirror a body or features across a plane</span></div>
       </div>
     </section>
 
     <!-- 10. WHAT YOU GET (pricing) -->
-    <section style="padding-top:56px">
+    <section class="buy" style="padding-top:112px">
       <div class="final-head">
-        <h2>Model your first real part <span class="hl">tonight.</span></h2>
+        <h2>Model your first real part <span class="hl">tonight</span></h2>
         <div class="dim" aria-hidden="true"><i></i>truecad<i></i></div>
       </div>
 
@@ -410,19 +496,19 @@
           <li>Editable feature history</li>
           <li>One-time purchase, no subscription</li>
           <li>Every future update included</li>
-          <li>Windows and Mac, Blender 5.0+</li>
           <li>Full documentation</li>
+          <li>14-day refund, no questions asked</li>
         </ul>
         <!-- [TODO: link target. Gumroad on semtip.nl version; on Superhive version remove the button, the buy box handles it] -->
         <a class="btn" href="#" target="_top">Get TrueCAD &#8599;</a>
       </div>
-      <p class="note">Newsletter subscribers get a discount. Sign up at <a href="https://semtip.nl/truecad/" target="_top">semtip.nl/truecad</a>.</p>
+      <p class="note">Newsletter subscribers get a discount. <a href="https://semtip.nl/truecad/" target="_top">Sign up here</a>.</p>
     </section>
 
     <!-- 11. ROADMAP -->
     <section id="roadmap">
       <p class="kick">What&rsquo;s next</p>
-      <h2>Roadmap</h2>
+      <h2>The Roadmap</h2>
       <p>Support future development, let's bring CAD to Blender.</p>
       <ul class="road">
         <li>Linear and circular patterns <em>Next</em></li>
@@ -450,6 +536,10 @@
       <h2>Questions, answered</h2>
       <div class="faq">
         <details name="faq" open>
+          <summary>Is it as precise as dedicated CAD software?</summary>
+          <p>Yes. TrueCAD builds true B-rep solids on a real CAD kernel, so geometry and STEP exports have the same precision as dedicated CAD tools.</p>
+        </details>
+        <details name="faq">
           <summary>How is this different from regular modeling in Blender?</summary>
           <p>Blender models are meshes: surfaces made of flat polygons. TrueCAD adds a new object type, a CAD Part, built on a real CAD kernel. A cylinder is a true cylinder, and a hole knows it&rsquo;s a hole, so you can come back later and change its diameter. Press Tab to enter CAD edit mode, just like Blender&rsquo;s own edit mode.</p>
         </details>
@@ -462,10 +552,6 @@
           <p>Yes. Every feature keeps its own editable values in a history tree, similar to Blender&rsquo;s modifier stack. Change an early dimension and the model rebuilds.</p>
         </details>
         <details name="faq">
-          <summary>Is it as precise as dedicated CAD software?</summary>
-          <p>Yes. TrueCAD builds true B-rep solids on a real CAD kernel, so geometry and STEP exports have the same precision as dedicated CAD tools.</p>
-        </details>
-        <details name="faq">
           <summary>Can I use it for 3D printing?</summary>
           <p>Yes. CAD Parts are normal Blender objects, so Blender's own STL and OBJ export work as usual.</p>
         </details>
@@ -476,6 +562,10 @@
         <details name="faq">
           <summary>Commercial use, updates and support?</summary>
           <p>Commercial use is allowed. Every future update is included. Start with the <a data-docs href="#" target="_blank" rel="noopener">documentation</a>; for bugs or questions, email <a data-email href="#">hello@semtip.nl</a>.</p>
+        </details>
+        <details name="faq">
+          <summary>What is the refund policy?</summary>
+          <p>You have 14 days from purchase to ask for a full refund, no questions asked. Email <a data-email href="#">hello@semtip.nl</a>.</p>
         </details>
         <details name="faq">
           <summary>How is it different from CAD Sketcher?</summary>
@@ -506,6 +596,14 @@
         document.querySelector('[data-sale-code]').textContent = C.SALE_CODE;
         document.querySelector('[data-sale]').classList.add('on');
       }
+    })();
+  </script>
+  <script>
+    (function () {
+      var st = document.querySelector('.ba-stage'); if (!st) return;
+      var r = st.querySelector('.ba-range');
+      function set() { st.style.setProperty('--pos', r.value + '%'); }
+      r.addEventListener('input', set); set();
     })();
   </script>
 </body>
