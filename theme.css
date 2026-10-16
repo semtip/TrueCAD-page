@@ -2,61 +2,46 @@
    TrueCAD page theme. Rebrand here, nowhere else.
    index.html only uses these variables, never raw colors.
 
-   Dark is the default (matches semtip.nl/truecad).
-   To try the light preset, set <html data-theme="light">.
+   Matches the landing page at semtip.nl/truecad (light,
+   Rayon orange, Inter Tight headings, medium corners).
    ========================================================== */
 
 :root {
   /* surfaces */
-  --bg:        #000;
-  --panel:     #0c0d0e;
-  --line:      rgba(255,255,255,.09);
-  --line-2:    rgba(255,255,255,.16);
-  --grid:      rgba(255,255,255,.06);
+  --bg:        #f4f1f4;
+  --panel:     #fff;
+  --line:      rgba(30,20,50,.09);
+  --line-2:    rgba(30,20,50,.16);
+  --grid:      rgba(30,20,50,.12);
 
   /* text */
-  --text:      #faf9f7;
-  --body:      #d3cfc5;
-  --muted:     #9a978f;
-  --faint:     #6f6c66;
+  --text:      #111016;
+  --body:      #46444c;
+  --muted:     #6c6972;
+  --faint:     #9a97a0;
 
   /* accent */
-  --accent:      #4fd6f2;
-  --accent-ink:  #00161c;              /* text on accent buttons */
-  --accent-soft: rgba(79,214,242,.10); /* tinted fills */
-  --accent-line: rgba(79,214,242,.40); /* tinted borders */
-  --accent-glow: rgba(79,214,242,.45); /* button hover glow */
+  --accent:      #ff4710;
+  --accent-text: #dc3c06;              /* small copy on white */
+  --accent-ink:  #fff;                 /* text on accent buttons */
+  --accent-rgb:  255,71,16;
+  --accent-soft: rgba(255,71,16,.08);  /* tinted fills */
+  --accent-line: rgba(255,71,16,.40);  /* tinted borders */
+  --accent-glow: rgba(255,71,16,.60);  /* button hover glow */
+  --accent-hover: color-mix(in oklab, var(--accent) 88%, #000);
 
   /* type */
-  --font:  'Inter', system-ui, sans-serif;
-  --mono:  'IBM Plex Mono', ui-monospace, monospace;
-  --serif: 'Instrument Serif', Georgia, serif;
+  --font:    'Inter', system-ui, sans-serif;
+  --display: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --serif:   'Instrument Serif', Georgia, serif;
 
-  /* shape */
-  --radius:    14px;
-  --radius-sm: 10px;
-
-  color-scheme: dark;
-}
-
-/* Light preset, RenderFlow-like warm paper. */
-:root[data-theme="light"] {
-  --bg:        #faf9f7;
-  --panel:     #fff;
-  --line:      rgba(0,0,0,.09);
-  --line-2:    rgba(0,0,0,.16);
-  --grid:      rgba(0,0,0,.05);
-
-  --text:      #1b1a18;
-  --body:      #57544e;
-  --muted:     #8a877f;
-  --faint:     #a8a59d;
-
-  --accent:      #07758f;
-  --accent-ink:  #fff;
-  --accent-soft: rgba(7,117,143,.08);
-  --accent-line: rgba(7,117,143,.35);
-  --accent-glow: rgba(7,117,143,.35);
+  /* shape (landing "medium" corners) */
+  --radius-xl: 10px;
+  --radius:    9px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+  --shadow: 0 1px 2px rgba(30,20,50,.04), 0 8px 24px -12px rgba(30,20,50,.12);
 
   color-scheme: light;
 }
