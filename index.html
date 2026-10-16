@@ -65,6 +65,15 @@
     .sale em:empty { display: none; }
 
     /* hero */
+    .bio { text-align: center; padding: 48px 0 0; }
+    .bio img.me { width: 99px; height: 99px; object-fit: cover; border-radius: 28px; margin: 0 auto 16px; transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+    .bio:hover img.me { transform: rotate(-1.5deg) scale(1.03); }
+    .bio .hi { display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; margin: 0 0 8px; color: var(--text); }
+    .bio .sig { width: 132px; height: 40px; object-fit: contain; opacity: .9; margin-bottom: 8px; filter: invert(1); }
+    :root[data-theme="light"] .bio .sig { filter: none; }
+    .bio p.tag { font-size: 14px; color: var(--muted); margin: 0 auto; max-width: 52ch; }
+    .bio + .hero { padding-top: 40px; }
+
     .hero { position: relative; padding: 64px 0 0; isolation: isolate; }
     .hero:before { content: ''; position: absolute; inset: 0 -50vw 30%; z-index: -1; pointer-events: none;
       background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
@@ -167,6 +176,13 @@
   <div class="sale" data-sale><span data-sale-text></span><em data-sale-code></em></div>
 
   <main class="page">
+
+    <!-- 0. PERSONAL NOTE -->
+    <section class="bio">
+      <img class="me" src="assets/sem.jpg" alt="Sem" width="99" height="99">
+      <h2 class="hi">Hi, I'm<img class="sig" src="assets/sem-signature.png" alt="Sem signature" width="132" height="40"></h2>
+      <p class="tag">Product renderer to addon builder. Built solo, nights and weekends. Made with care, by someone who cares about quality. Thank you for supporting an individual maker.</p>
+    </section>
 
     <!-- 1. HERO: the one claim, shown, plus the keys that prove it -->
     <header class="hero">
