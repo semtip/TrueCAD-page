@@ -198,7 +198,8 @@
     /* roadmap */
     .road { list-style: none; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); }
     .road li { padding: 12px 22px; color: var(--body); font-size: .9375rem; }
-    .road li.it + li.it { border-top: 1px solid var(--line); }
+    .road li { position: relative; }
+    .road li.it + li.it::before { content: ''; position: absolute; top: 0; left: 22px; right: 22px; border-top: 1px solid var(--line); }
     .road li.grp { padding: 24px 22px 2px; font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
     .road li.grp.shipped, .road li.grp.next { padding-top: 16px; }
     .road li.grp.shipped:not([hidden]) + li.grp { padding-top: 24px; }
