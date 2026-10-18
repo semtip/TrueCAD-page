@@ -206,6 +206,9 @@
     .road li.grp.next { color: var(--accent-text); }
     .road .t { display: block; color: var(--text); font-weight: 500; }
     .road .d { display: block; margin-top: 2px; font-size: .875rem; line-height: 1.45; color: var(--muted); text-wrap: pretty; }
+    .road li.built .t { display: flex; align-items: flex-start; gap: 8px; }
+    .road li.built .t::before { content: ""; flex: none; width: 16px; height: 16px; margin-top: 4px; background: var(--accent); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3.25 3.25L13 4.5'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3.25 3.25L13 4.5'/%3E%3C/svg%3E") center / contain no-repeat; }
+    .road li.built .d { padding-left: 24px; }
 
     /* faq */
     .faq { margin: 24px 0 0; }
@@ -516,9 +519,9 @@
       <p>Support future development, let's bring CAD to Blender.</p>
       <ul class="road">
         <li class="grp shipped">Already built</li>
-        <li class="it"><span class="t">Core CAD Engine and STEP Import Export</span><span class="d">Build true solid models, and bring STEP files in and out of Blender with full precision.</span></li>
-        <li class="it"><span class="t">2D Sketching</span><span class="d">Draw dimensioned sketches and turn them into solids.</span></li>
-        <li class="it"><span class="t">Feature history</span><span class="d">Edit an earlier step and the whole model rebuilds.</span></li>
+        <li class="it built"><span class="t">Core CAD Engine and STEP Import Export</span><span class="d">Build true solid models, and bring STEP files in and out of Blender with full precision.</span></li>
+        <li class="it built"><span class="t">2D Sketching</span><span class="d">Draw dimensioned sketches and turn them into solids.</span></li>
+        <li class="it built"><span class="t">Feature history</span><span class="d">Edit an earlier step and the whole model rebuilds.</span></li>
         <li class="grp next">Next</li>
         <li class="it"><span class="t">Linear and circular patterns</span><span class="d">Repeat a feature along a line or around an axis, like bolt circles and vent grids.</span></li>
         <li class="grp">Soon</li>
