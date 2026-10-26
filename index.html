@@ -122,6 +122,7 @@
     .media img, .media video { width: 100%; height: auto; }
     .hero-media img { width: 100%; height: auto; }
     .hero-media .media { aspect-ratio: 16 / 9; }
+    .hero-media .media iframe { display: block; width: 100%; height: 100%; border: 0; }
     .hero-media { margin: 40px 0 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
 
     .keys-head { font-size: 1.25rem; font-weight: 800; letter-spacing: -.025em; line-height: 1.3; color: var(--accent); margin: 28px 0 0; padding: 0 4px; }
@@ -352,7 +353,7 @@
 
       <!-- 2. HERO VIDEO -->
       <figure class="hero-media">
-        <div class="media"><video src="assets/showcase.mp4" poster="assets/showcase-poster.jpg" autoplay muted loop playsinline controls preload="metadata" width="1920" height="1080"></video></div>
+        <div class="media"><iframe src="https://www.youtube-nocookie.com/embed/L8M7sKq0FBc?rel=0" title="TrueCAD Demo: CAD Precision Modelling in Blender" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
       </figure>
 
       <h3 class="keys-head">You already know how to use it</h3>
