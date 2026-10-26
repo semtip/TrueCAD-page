@@ -61,7 +61,8 @@
     .sale.on { display: block; }
     /* beta bar: page background, large type */
     .beta { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 16px; min-height: 64px; padding: 12px 20px; background: var(--bg); border-bottom: 1px solid var(--line-2); font-family: var(--font); font-size: 1.0625rem; font-weight: 600; letter-spacing: -.01em; color: var(--text); text-align: center; }
-    .beta-tag { font-family: var(--mono); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-line); border-radius: var(--radius-xs); padding: 4px 10px; }
+    .beta-msg { display: inline-flex; align-items: center; gap: 8px; }
+    .beta-tag { font-family: var(--mono); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); background: var(--accent); border-radius: var(--radius-xs); padding: 4px 10px; }
     .beta a { color: var(--accent-text); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; transition: opacity .15s ease; }
     .beta a:hover { opacity: .8; }
     @media (max-width: 600px) { .beta { font-size: 1rem; min-height: 56px; } }
@@ -310,8 +311,7 @@
 <body>
 
   <div class="beta">
-    <span class="beta-tag">Beta</span>
-    <span>TrueCAD is in Beta.</span>
+    <span class="beta-msg">TrueCAD is in <span class="beta-tag">Beta</span></span>
     <a href="https://discord.gg/J5qTQ6AUkM" target="_blank" rel="noopener">Join our Discord &rarr;</a>
   </div>
   <div class="sale" data-sale><span data-sale-text></span><em data-sale-code></em></div>
@@ -364,7 +364,19 @@
       </div>
     </header>
 
-    <!-- 3. JUST A NEW OBJECT TYPE -->
+    <!-- 3. EDIT THE PAST -->
+    <section>
+      <p class="kick">Feature History</p>
+      <h2>Change a Dimension, Everything Updates</h2>
+      <p>Every operation is adjustable in the Feature History, similar to Blender modifiers and other CAD tools. Change the first sketch and every step after it updates.</p>
+      <div class="clips">
+        <div class="clip">
+          <div class="media wide-clip"><video src="assets/clip-history.mp4" poster="assets/clip-history-poster.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="768" data-speed="2"></video></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. JUST A NEW OBJECT TYPE -->
     <section>
       <p class="kick">How it works</p>
       <h2><kbd>Shift</kbd> <kbd>A</kbd> &rarr; CAD Part</h2>
@@ -373,18 +385,6 @@
       <div class="clips">
         <div class="clip">
           <div class="media wide-clip"><video src="assets/clip-addmenu.mp4" poster="assets/clip-addmenu-poster.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="768"></video></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. EDIT THE PAST -->
-    <section>
-      <p class="kick">Feature History</p>
-      <h2>Change a Dimension, Everything Updates</h2>
-      <p>Every operation is adjustable in the Feature History, similar to Blender modifiers and other CAD tools. Change the first sketch and every step after it updates.</p>
-      <div class="clips">
-        <div class="clip">
-          <div class="media wide-clip"><video src="assets/clip-history.mp4" poster="assets/clip-history-poster.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="768" data-speed="2"></video></div>
         </div>
       </div>
     </section>
